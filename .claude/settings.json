@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(echo \"---EXIT:$?---\")",
+      "Bash(docker rm *)",
+      "Bash(docker exec *)",
+      "Bash(cp backend/.env.example backend/.env)",
+      "Bash(lsof -nP -iTCP:5432 -sTCP:LISTEN)",
+      "Bash(grep -v -E '^\\\\s*\\(>|$\\)')"
+    ]
+  }
+}
