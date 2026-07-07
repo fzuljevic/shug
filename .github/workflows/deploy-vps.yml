@@ -42,14 +42,15 @@ jobs:
         env:
           VPS_HOST: ${{ secrets.VPS_HOST }}
           VPS_USER: ${{ secrets.VPS_USER }}
+          DEPLOY_SHA: ${{ github.sha }}
         run: |
-          ssh -o StrictHostKeyChecking=accept-new "$VPS_USER@$VPS_HOST" <<'EOF'
+          ssh -o StrictHostKeyChecking=accept-new "$VPS_USER@$VPS_HOST" "DEPLOY_SHA=$DEPLOY_SHA bash -s" <<'EOF'
             set -e
 
             cd /root/shug
 
-            git fetch origin main
-            git reset --hard origin/main
+            git fetch --prune origin
+            git reset --hard "$DEPLOY_SHA"
 
             docker compose -f docker-compose.vps.yml --env-file .env.vps build --no-cache web
             docker compose -f docker-compose.vps.yml --env-file .env.vps build api
@@ -65,9 +66,13 @@ jobs:
 
       - name: Health checks
         run: |
-          curl -f https://api.shshug.com/api/health
-          curl -f https://api.shshug.com/api/health/db
-          curl -f https://shshug.com
-          curl -f https://shshug.com/recipes
-          curl -f https://shshug.com/blog
-          curl -f https://shshug.com/utils
+          check_url() {
+            curl --fail --silent --show-error --retry 8 --retry-all-errors --retry-delay 3 --output /dev/null "$1"
+          }
+
+          check_url https://api.shshug.com/api/health
+          check_url https://api.shshug.com/api/health/db
+          check_url https://shshug.com
+          check_url https://shshug.com/recipes
+          check_url https://shshug.com/blog
+          check_url https://shshug.com/utils
