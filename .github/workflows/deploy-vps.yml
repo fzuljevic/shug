@@ -1,0 +1,55 @@
+name: Deploy to VPS
+
+on:
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Lint web
+        run: npm run lint --workspace web
+
+      - name: Build API
+        run: npm run build:api
+
+      - name: Build web
+        run: npm run build:web
+
+      - name: Configure SSH
+        uses: webfactory/ssh-agent@v0.9.0
+        with:
+          ssh-private-key: ${{ secrets.VPS_SSH_KEY }}
+
+      - name: Deploy to VPS
+        env:
+          VPS_HOST: ${{ secrets.VPS_HOST }}
+          VPS_USER: ${{ secrets.VPS_USER }}
+        run: |
+          ssh -o StrictHostKeyChecking=accept-new "$VPS_USER@$VPS_HOST" <<'EOF'
+          set -e
+          cd /root/shug
+          git pull origin main
+          docker compose -f docker-compose.vps.yml --env-file .env.vps build
+          docker compose -f docker-compose.vps.yml --env-file .env.vps up -d postgres
+          docker compose -f docker-compose.vps.yml --env-file .env.vps run --rm api npx prisma migrate deploy --schema apps/api/prisma/schema.prisma
+          docker compose -f docker-compose.vps.yml --env-file .env.vps up -d
+          docker compose -f docker-compose.vps.yml --env-file .env.vps ps
+          EOF
+
+      - name: Health checks
+        run: |
+          curl -f https://api.shshug.com/api/health
+          curl -f https://api.shshug.com/api/health/db
