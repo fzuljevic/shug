@@ -60,11 +60,13 @@ services:
       dockerfile: apps/web/Dockerfile.prod
       args:
         NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL:-https://api.example.com}
+        DEPLOY_SHA: ${DEPLOY_SHA:-unknown}
     restart: unless-stopped
     environment:
       NODE_ENV: ${NODE_ENV:-production}
       PORT: 3000
       NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL:-https://api.example.com}
+      DEPLOY_SHA: ${DEPLOY_SHA:-unknown}
     depends_on:
       - api
     networks:

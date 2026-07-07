@@ -77,6 +77,27 @@ jobs:
               return 1
             }
 
+            check_web_container_text() {
+              url="$1"
+              expected="$2"
+              echo "Checking web container $url"
+
+              for attempt in 1 2 3 4 5 6 7 8 9 10; do
+                actual="$(docker compose -f docker-compose.vps.yml --env-file .env.vps exec -T web wget -q -O - "$url" 2>/dev/null || true)"
+
+                if [ "$actual" = "$expected" ]; then
+                  return 0
+                fi
+
+                echo "Attempt $attempt got deploy marker: ${actual:-<empty>}"
+                sleep 3
+              done
+
+              docker compose -f docker-compose.vps.yml --env-file .env.vps logs --tail=100 web
+              return 1
+            }
+
+            check_web_container_text http://127.0.0.1:3000/deploy.txt "$DEPLOY_SHA"
             check_web_container http://127.0.0.1:3000/
             check_web_container http://127.0.0.1:3000/recipes
             check_web_container http://127.0.0.1:3000/blog
@@ -86,14 +107,31 @@ jobs:
           EOF
 
       - name: Health checks
+        env:
+          DEPLOY_SHA: ${{ github.sha }}
         run: |
           check_url() {
             echo "Checking $1"
             curl --fail --silent --show-error --retry 8 --retry-all-errors --retry-delay 3 --output /dev/null "$1"
           }
 
+          check_text() {
+            echo "Checking $1"
+
+            if ! actual="$(curl --fail --silent --show-error --retry 8 --retry-all-errors --retry-delay 3 "$1")"; then
+              return 1
+            fi
+
+            if [ "$actual" != "$2" ]; then
+              echo "Expected deploy marker: $2"
+              echo "Actual deploy marker: ${actual:-<empty>}"
+              return 1
+            fi
+          }
+
           check_url https://api.shshug.com/api/health
           check_url https://api.shshug.com/api/health/db
+          check_text https://shshug.com/deploy.txt "$DEPLOY_SHA"
           check_url https://shshug.com
           check_url https://shshug.com/recipes
           check_url https://shshug.com/blog
