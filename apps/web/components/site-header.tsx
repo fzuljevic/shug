@@ -1,19 +1,23 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { Ticker } from "./ticker";
 
 const NAV = [
-  { label: "Notes", href: "#essays" },
-  { label: "Flavors", href: "#notes" },
-  { label: "Kitchen", href: "#essays" },
-  { label: "Archive", href: "#archive" },
-  { label: "About", href: "#about" },
+  { label: "Recipes", href: "/recipes" },
+  { label: "Blog", href: "/blog" },
+  { label: "Utils", href: "/utils" },
 ];
 
 export function SiteHeader() {
+  const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
+
+  const isActive = (href: string) =>
+    pathname === href || pathname.startsWith(`${href}/`);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 12);
@@ -43,25 +47,28 @@ export function SiteHeader() {
       >
         <div className="mx-auto flex max-w-editorial items-center justify-between gap-6 px-5 py-4 sm:px-8 lg:px-12">
           {/* Wordmark */}
-          <a href="#top" className="group flex items-baseline gap-3">
+          <Link href="/" className="group flex items-baseline gap-3">
             <span className="font-display text-2xl font-medium tracking-tight text-ink sm:text-[1.7rem]">
               Salt&nbsp;&amp;&nbsp;Bread
             </span>
             <span className="hidden font-mono text-[0.6rem] uppercase tracking-label text-ink-faint sm:inline">
               Est. 2026
             </span>
-          </a>
+          </Link>
 
           {/* Desktop nav */}
           <nav className="hidden items-center gap-8 lg:flex">
             {NAV.map((item) => (
-              <a
+              <Link
                 key={item.href}
                 href={item.href}
-                className="link-underline font-mono text-[0.72rem] uppercase tracking-wide text-ink-soft transition-colors hover:text-ink"
+                aria-current={isActive(item.href) ? "page" : undefined}
+                className={`link-underline font-mono text-[0.72rem] uppercase tracking-wide transition-colors hover:text-ink ${
+                  isActive(item.href) ? "text-ink" : "text-ink-soft"
+                }`}
               >
                 {item.label}
-              </a>
+              </Link>
             ))}
           </nav>
 
@@ -108,19 +115,24 @@ export function SiteHeader() {
         <div className="flex h-full flex-col justify-between px-6 pb-10 pt-28">
           <nav className="flex flex-col">
             {NAV.map((item, i) => (
-              <a
+              <Link
                 key={item.href}
                 href={item.href}
                 onClick={() => setOpen(false)}
+                aria-current={isActive(item.href) ? "page" : undefined}
                 className="group flex items-baseline justify-between border-b border-line py-5"
               >
-                <span className="font-display text-4xl font-medium tracking-tight text-ink">
+                <span
+                  className={`font-display text-4xl font-medium tracking-tight transition-opacity ${
+                    isActive(item.href) ? "text-ink italic" : "text-ink"
+                  }`}
+                >
                   {item.label}
                 </span>
                 <span className="font-mono text-[0.7rem] text-ink-faint">
                   {String(i + 1).padStart(2, "0")}
                 </span>
-              </a>
+              </Link>
             ))}
           </nav>
 

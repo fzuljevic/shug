@@ -1,15 +1,42 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Link from "next/link";
 
 const apiUrl = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:4001";
 
 type HealthState = "checking" | "ok" | "error";
 
-const COLUMNS: { title: string; links: string[] }[] = [
-  { title: "Read", links: ["Notes", "Flavors", "Kitchen", "Archive"] },
-  { title: "The Notebook", links: ["About", "Our approach", "Contributors", "Contact"] },
-  { title: "Elsewhere", links: ["Newsletter", "Instagram", "Bluesky", "RSS"] },
+type FooterLink = { label: string; href: string };
+
+const COLUMNS: { title: string; links: FooterLink[] }[] = [
+  {
+    title: "Read",
+    links: [
+      { label: "Recipes", href: "/recipes" },
+      { label: "Blog", href: "/blog" },
+      { label: "Utils", href: "/utils" },
+      { label: "Home", href: "/" },
+    ],
+  },
+  {
+    title: "The Notebook",
+    links: [
+      { label: "About", href: "#" },
+      { label: "Our approach", href: "#" },
+      { label: "Contributors", href: "#" },
+      { label: "Contact", href: "#" },
+    ],
+  },
+  {
+    title: "Elsewhere",
+    links: [
+      { label: "Newsletter", href: "#" },
+      { label: "Instagram", href: "#" },
+      { label: "Bluesky", href: "#" },
+      { label: "RSS", href: "#" },
+    ],
+  },
 ];
 
 export function SiteFooter() {
@@ -74,13 +101,13 @@ export function SiteFooter() {
               <p className="eyebrow text-paper/50">{col.title}</p>
               <ul className="mt-5 space-y-3">
                 {col.links.map((link) => (
-                  <li key={link}>
-                    <a
-                      href="#"
+                  <li key={link.label}>
+                    <Link
+                      href={link.href}
                       className="link-underline text-sm text-paper/80 transition-colors hover:text-paper"
                     >
-                      {link}
-                    </a>
+                      {link.label}
+                    </Link>
                   </li>
                 ))}
               </ul>
