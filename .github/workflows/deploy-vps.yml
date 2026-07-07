@@ -3,6 +3,10 @@ name: Deploy to VPS
 on:
   workflow_dispatch:
 
+concurrency:
+  group: deploy-vps
+  cancel-in-progress: false
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -15,6 +19,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 22
+          cache: npm
 
       - name: Install dependencies
         run: npm ci
@@ -39,17 +44,30 @@ jobs:
           VPS_USER: ${{ secrets.VPS_USER }}
         run: |
           ssh -o StrictHostKeyChecking=accept-new "$VPS_USER@$VPS_HOST" <<'EOF'
-          set -e
-          cd /root/shug
-          git pull origin main
-          docker compose -f docker-compose.vps.yml --env-file .env.vps build
-          docker compose -f docker-compose.vps.yml --env-file .env.vps up -d postgres
-          docker compose -f docker-compose.vps.yml --env-file .env.vps run --rm api npx prisma migrate deploy --schema apps/api/prisma/schema.prisma
-          docker compose -f docker-compose.vps.yml --env-file .env.vps up -d
-          docker compose -f docker-compose.vps.yml --env-file .env.vps ps
+            set -e
+
+            cd /root/shug
+
+            git fetch origin main
+            git reset --hard origin/main
+
+            docker compose -f docker-compose.vps.yml --env-file .env.vps build --no-cache web
+            docker compose -f docker-compose.vps.yml --env-file .env.vps build api
+
+            docker compose -f docker-compose.vps.yml --env-file .env.vps up -d postgres
+
+            docker compose -f docker-compose.vps.yml --env-file .env.vps run --rm api npx prisma migrate deploy --schema apps/api/prisma/schema.prisma
+
+            docker compose -f docker-compose.vps.yml --env-file .env.vps up -d --force-recreate web api caddy
+
+            docker compose -f docker-compose.vps.yml --env-file .env.vps ps
           EOF
 
       - name: Health checks
         run: |
           curl -f https://api.shshug.com/api/health
           curl -f https://api.shshug.com/api/health/db
+          curl -f https://shshug.com
+          curl -f https://shshug.com/recipes
+          curl -f https://shshug.com/blog
+          curl -f https://shshug.com/utils
