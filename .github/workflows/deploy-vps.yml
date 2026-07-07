@@ -51,15 +51,36 @@ jobs:
 
             git fetch --prune origin
             git reset --hard "$DEPLOY_SHA"
+            git rev-parse --short HEAD
 
-            docker compose -f docker-compose.vps.yml --env-file .env.vps build --no-cache web
-            docker compose -f docker-compose.vps.yml --env-file .env.vps build api
+            docker compose -f docker-compose.vps.yml --env-file .env.vps build --no-cache web api
 
             docker compose -f docker-compose.vps.yml --env-file .env.vps up -d postgres
 
             docker compose -f docker-compose.vps.yml --env-file .env.vps run --rm api npx prisma migrate deploy --schema apps/api/prisma/schema.prisma
 
-            docker compose -f docker-compose.vps.yml --env-file .env.vps up -d --force-recreate web api caddy
+            docker compose -f docker-compose.vps.yml --env-file .env.vps up -d --build --force-recreate --remove-orphans web api caddy
+
+            check_web_container() {
+              url="$1"
+              echo "Checking web container $url"
+
+              for attempt in 1 2 3 4 5 6 7 8 9 10; do
+                if docker compose -f docker-compose.vps.yml --env-file .env.vps exec -T web wget -q --spider "$url"; then
+                  return 0
+                fi
+
+                sleep 3
+              done
+
+              docker compose -f docker-compose.vps.yml --env-file .env.vps logs --tail=100 web
+              return 1
+            }
+
+            check_web_container http://127.0.0.1:3000/
+            check_web_container http://127.0.0.1:3000/recipes
+            check_web_container http://127.0.0.1:3000/blog
+            check_web_container http://127.0.0.1:3000/utils
 
             docker compose -f docker-compose.vps.yml --env-file .env.vps ps
           EOF
@@ -67,6 +88,7 @@ jobs:
       - name: Health checks
         run: |
           check_url() {
+            echo "Checking $1"
             curl --fail --silent --show-error --retry 8 --retry-all-errors --retry-delay 3 --output /dev/null "$1"
           }
 
