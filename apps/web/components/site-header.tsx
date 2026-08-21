@@ -6,7 +6,7 @@ import { usePathname } from "next/navigation";
 import { Ticker } from "./ticker";
 
 const NAV = [
-  { label: "Recipes", href: "/recipes" },
+  { label: "Guides", href: "/guides" },
   { label: "Blog", href: "/blog" },
   { label: "Utils", href: "/utils" },
 ];
@@ -49,7 +49,7 @@ export function SiteHeader() {
           {/* Wordmark */}
           <Link href="/" className="group flex items-baseline gap-3">
             <span className="font-display text-2xl font-medium tracking-tight text-ink sm:text-[1.7rem]">
-              Salt&nbsp;&amp;&nbsp;Bread
+              Field&nbsp;Notes
             </span>
             <span className="hidden font-mono text-[0.6rem] uppercase tracking-label text-ink-faint sm:inline">
               Est. 2026

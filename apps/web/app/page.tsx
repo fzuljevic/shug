@@ -8,21 +8,21 @@ import { stagger } from "@/components/editorial";
 const SECTIONS = [
   {
     n: "01",
-    label: "Recipes",
-    href: "/recipes",
-    blurb: "Things worth cooking slowly — bread, broth, and the odd good bite.",
+    label: "Guides",
+    href: "/guides",
+    blurb: "Things worth doing slowly — plans, routines, and the odd good habit.",
   },
   {
     n: "02",
     label: "Blog",
     href: "/blog",
-    blurb: "Essays and small notes from between the cooking.",
+    blurb: "Essays and small notes from between the projects.",
   },
   {
     n: "03",
     label: "Utils",
     href: "/utils",
-    blurb: "Kitchen conversions, timings, and quiet reference.",
+    blurb: "Everyday conversions, timings, and quiet reference.",
   },
 ];
 
@@ -32,7 +32,7 @@ export default function Home() {
       {/* ===================== HERO / MASTHEAD ===================== */}
       <section className="mx-auto max-w-editorial px-5 pb-16 pt-14 sm:px-8 sm:pt-20 lg:px-12">
         <div className="flex items-center gap-4 animate-rise-in" style={stagger(0)}>
-          <span className="eyebrow">Kitchen notebook</span>
+          <span className="eyebrow">Field notebook</span>
           <span className="rule w-16 animate-reveal-line" />
           <span className="eyebrow">Early version</span>
         </div>
@@ -41,15 +41,15 @@ export default function Home() {
           className="font-display mt-8 max-w-4xl text-[clamp(2.6rem,7vw,6rem)] font-medium leading-[0.94] tracking-[-0.02em] animate-rise-in"
           style={stagger(1)}
         >
-          The quiet beginning of a{" "}
-          <em className="font-light italic">kitchen story.</em>
+          The quiet beginning of an{" "}
+          <em className="font-light italic">ongoing notebook.</em>
         </h1>
 
         <p
           className="mt-8 max-w-2xl text-lg leading-relaxed text-ink-soft animate-rise-in sm:text-xl"
           style={stagger(2)}
         >
-          A small place for flavors, notes, and kitchen habits. No rush and no
+          A small place for ideas, notes, and everyday habits. No rush and no
           noise — just what&apos;s worth writing down. Start anywhere below.
         </p>
       </section>

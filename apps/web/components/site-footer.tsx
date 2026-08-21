@@ -13,7 +13,7 @@ const COLUMNS: { title: string; links: FooterLink[] }[] = [
   {
     title: "Read",
     links: [
-      { label: "Recipes", href: "/recipes" },
+      { label: "Guides", href: "/guides" },
       { label: "Blog", href: "/blog" },
       { label: "Utils", href: "/utils" },
       { label: "Home", href: "/" },
@@ -69,7 +69,7 @@ export function SiteFooter() {
           <div>
             <p className="eyebrow text-paper/50">Only just started · 2026</p>
             <h2 className="font-display mt-4 text-5xl font-medium leading-[0.9] tracking-tight sm:text-7xl">
-              Salt&nbsp;&amp;&nbsp;Bread
+              Field&nbsp;Notes
             </h2>
           </div>
           <form
@@ -117,7 +117,7 @@ export function SiteFooter() {
 
         {/* Colophon */}
         <div className="flex flex-col gap-4 border-t border-paper/15 pt-8 font-mono text-[0.66rem] uppercase tracking-wide text-paper/50 sm:flex-row sm:items-center sm:justify-between">
-          <span>© 2026 Salt &amp; Bread — set in Fraunces &amp; Space Mono</span>
+          <span>© 2026 Field Notes — set in Fraunces &amp; Space Mono</span>
           <span className="inline-flex items-center gap-2">
             <span
               className={`inline-block h-1.5 w-1.5 rounded-full ${

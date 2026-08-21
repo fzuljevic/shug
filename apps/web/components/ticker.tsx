@@ -1,7 +1,7 @@
 const PHRASES = [
-  "The quiet beginning of a kitchen story",
-  "Flavors, notes, and small habits",
-  "A little warmth, a little order, a little good taste",
+  "The quiet beginning of an ongoing notebook",
+  "Ideas, notes, and small habits",
+  "A little order, a little curiosity, a little follow-through",
   "For everything worth writing down",
   "Still early — we're building slowly",
 ];

@@ -25,9 +25,9 @@ const spaceMono = Space_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Salt & Bread — a small kitchen notebook",
+  title: "Field Notes — a small notebook",
   description:
-    "The quiet beginning of a kitchen story — flavors, notes, and small kitchen habits. Still an early version.",
+    "The quiet beginning of an ongoing notebook — ideas, notes, and small habits. Still an early version.",
 };
 
 export default function RootLayout({

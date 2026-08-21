@@ -2,97 +2,97 @@ import type { Metadata } from "next";
 import { PageHeader, SectionHeader } from "@/components/editorial";
 
 export const metadata: Metadata = {
-  title: "Recipes — Salt & Bread",
-  description: "Things worth cooking slowly — bread, broth, and the odd good bite.",
+  title: "Guides — Field Notes",
+  description: "Short walkthroughs worth doing slowly — setup, planning, and the odd good habit.",
 };
 
 /* ------------------------------------------------------------------ */
 /*  Placeholder content — swap for real data later                     */
 /* ------------------------------------------------------------------ */
 
-const RECIPES = [
+const GUIDES = [
   {
     n: "01",
-    cat: "Bread",
-    title: "A slow country loaf",
-    excerpt: "Flour, water, salt, and time. Mostly time.",
-    time: "18 hr",
-    yield: "1 loaf",
+    cat: "Planning",
+    title: "A slow project outline",
+    excerpt: "Notes, a timeline, and patience. Mostly patience.",
+    time: "3 hr",
+    yield: "1 outline",
   },
   {
     n: "02",
-    cat: "Soup",
-    title: "White bean & rosemary",
-    excerpt: "The kind of pot that quietly looks after itself.",
+    cat: "Focus",
+    title: "A quiet deep-work block",
+    excerpt: "The kind of session that quietly looks after itself.",
     time: "45 min",
-    yield: "Serves 4",
+    yield: "Solo",
   },
   {
     n: "03",
-    cat: "Table",
-    title: "Tomatoes, salt, good oil",
-    excerpt: "Barely a recipe — more a reminder to keep it simple.",
+    cat: "Desk",
+    title: "Pen, paper, good light",
+    excerpt: "Barely a system — more a reminder to keep it simple.",
     time: "10 min",
-    yield: "Serves 2",
+    yield: "Any day",
   },
   {
     n: "04",
-    cat: "Pasta",
-    title: "Garlic, oil, a little heat",
-    excerpt: "Weeknight aglio e olio, cooked while the kettle sings.",
+    cat: "Tools",
+    title: "Templates, tags, a little structure",
+    excerpt: "Weeknight tidying, done while the music plays.",
     time: "20 min",
-    yield: "Serves 2",
+    yield: "Solo",
   },
   {
     n: "05",
     cat: "Morning",
-    title: "Soft eggs on toast",
+    title: "A slow first hour",
     excerpt: "The first small ceremony of a slow day.",
     time: "8 min",
-    yield: "Serves 1",
+    yield: "Daily",
   },
   {
     n: "06",
-    cat: "Sweet",
-    title: "Olive oil & orange cake",
-    excerpt: "Plain enough for breakfast, good enough for guests.",
+    cat: "Archive",
+    title: "A tidy backlog review",
+    excerpt: "Plain enough for a Monday, thorough enough to trust.",
     time: "1 hr",
-    yield: "1 cake",
+    yield: "Weekly",
   },
 ];
 
-/* the little "in the kitchen" index, echoing the original masthead panel */
+/* the little "in the notebook" index, echoing the original masthead panel */
 const INDEX = [
-  { n: "01", title: "A slow country loaf", cat: "Bread" },
-  { n: "02", title: "White bean & rosemary", cat: "Soup" },
-  { n: "03", title: "Tomatoes, salt, good oil", cat: "Table" },
-  { n: "04", title: "Soft eggs on toast", cat: "Morning" },
+  { n: "01", title: "A slow project outline", cat: "Planning" },
+  { n: "02", title: "A quiet deep-work block", cat: "Focus" },
+  { n: "03", title: "Pen, paper, good light", cat: "Desk" },
+  { n: "04", title: "A slow first hour", cat: "Morning" },
 ];
 
 /* ------------------------------------------------------------------ */
 
-export default function RecipesPage() {
+export default function GuidesPage() {
   return (
     <div id="top">
       <PageHeader
-        eyebrow="From the kitchen"
-        aside="Recipes"
+        eyebrow="From the notebook"
+        aside="Guides"
         title={
           <>
-            Things worth cooking <em className="font-light italic">slowly.</em>
+            Things worth doing <em className="font-light italic">slowly.</em>
           </>
         }
-        intro="A short shelf of recipes — nothing fussy, nothing to prove. Bread that asks for patience, a pot that looks after itself, and a few good things for the table."
-        meta={["6 recipes", "Feb 2026", "No fuss"]}
+        intro="A short shelf of guides — nothing fussy, nothing to prove. Plans that ask for patience, a routine that looks after itself, and a few good habits worth keeping."
+        meta={["6 guides", "Feb 2026", "No fuss"]}
       />
 
-      {/* ===================== RECIPE GRID ===================== */}
+      {/* ===================== GUIDE GRID ===================== */}
       <section className="border-t border-ink">
         <div className="mx-auto max-w-editorial px-5 py-16 sm:px-8 sm:py-20 lg:px-12">
           <SectionHeader kicker="For slow days" title="The Shelf" />
 
           <div className="mt-12 grid grid-cols-1 gap-px border border-line bg-line sm:grid-cols-2 lg:grid-cols-3">
-            {RECIPES.map((r) => (
+            {GUIDES.map((r) => (
               <a
                 key={r.n}
                 href="#"
@@ -124,7 +124,7 @@ export default function RecipesPage() {
         </div>
       </section>
 
-      {/* ===================== KITCHEN INDEX ===================== */}
+      {/* ===================== NOTEBOOK INDEX ===================== */}
       <section className="border-t border-ink">
         <div className="mx-auto max-w-editorial px-5 py-16 sm:px-8 sm:py-20 lg:px-12">
           <div className="grid grid-cols-1 gap-12 lg:grid-cols-12">
@@ -139,7 +139,7 @@ export default function RecipesPage() {
             <aside className="lg:col-span-8">
               <div className="border border-line bg-panel/60 p-6 sm:p-8">
                 <div className="flex items-center justify-between">
-                  <span className="eyebrow">In the kitchen</span>
+                  <span className="eyebrow">In the notebook</span>
                   <span className="font-mono text-[0.7rem] text-ink-faint">04</span>
                 </div>
                 <ol className="mt-6 divide-y divide-line">

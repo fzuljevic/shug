@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import { ArticleCard, PageHeader, SectionHeader } from "@/components/editorial";
 
 export const metadata: Metadata = {
-  title: "Blog — Salt & Bread",
-  description: "Essays and small notes from between the cooking.",
+  title: "Blog — Field Notes",
+  description: "Essays and small notes from between the projects.",
 };
 
 /* ------------------------------------------------------------------ */
@@ -13,16 +13,16 @@ export const metadata: Metadata = {
 const ESSAYS = [
   {
     n: "01",
-    cat: "Kitchen",
-    title: "On bread and patience",
-    excerpt: "Some things can't be hurried. Bread is one of them.",
+    cat: "Notebook",
+    title: "On patience and drafts",
+    excerpt: "Some things can't be hurried. A good draft is one of them.",
     author: "The Editors",
     read: "4 min",
   },
   {
     n: "02",
-    cat: "Flavors",
-    title: "Salt, oil, and a little sea",
+    cat: "Ideas",
+    title: "Structure, clarity, and a little space",
     excerpt: "Three things that are almost always enough.",
     author: "M. K.",
     read: "3 min",
@@ -30,23 +30,23 @@ const ESSAYS = [
   {
     n: "03",
     cat: "Note",
-    title: "A table for one",
-    excerpt: "A small meal cooked without hurry, just for yourself.",
+    title: "A desk for one",
+    excerpt: "A small session worked without hurry, just for yourself.",
     author: "L. P.",
     read: "5 min",
   },
   {
     n: "04",
     cat: "Habits",
-    title: "Small habits in the kitchen",
-    excerpt: "What we quietly repeat shapes the way we cook.",
+    title: "Small habits in the notebook",
+    excerpt: "What we quietly repeat shapes the way we work.",
     author: "A. F.",
     read: "4 min",
   },
   {
     n: "05",
-    cat: "Flavors",
-    title: "The season a tomato makes sense",
+    cat: "Ideas",
+    title: "The season an idea makes sense",
     excerpt: "A short reminder that some things keep their own time.",
     author: "R. S.",
     read: "6 min",
@@ -55,15 +55,15 @@ const ESSAYS = [
     n: "06",
     cat: "Note",
     title: "For everything worth writing down",
-    excerpt: "A few words on keeping a small kitchen notebook.",
+    excerpt: "A few words on keeping a small notebook.",
     author: "The Editors",
     read: "3 min",
   },
 ];
 
 const NOTES = [
-  { date: "07.02", title: "The best ingredient is the one within reach", tag: "Kitchen" },
-  { date: "03.02", title: "Salt at the end, not the start", tag: "Flavors" },
+  { date: "07.02", title: "The best tool is the one within reach", tag: "Notebook" },
+  { date: "03.02", title: "Edit at the end, not the start", tag: "Ideas" },
   { date: "28.01", title: "Slow turns out to be faster", tag: "Habit" },
   { date: "21.01", title: "Write down what didn't work, too", tag: "Note" },
 ];
@@ -78,10 +78,10 @@ export default function BlogPage() {
         aside="Blog"
         title={
           <>
-            Notes from the edge <em className="font-light italic">of the table.</em>
+            Notes from the edge <em className="font-light italic">of the page.</em>
           </>
         }
-        intro="Longer reads and shorter thoughts from between the cooking — gathered slowly, kept close to the kitchen."
+        intro="Longer reads and shorter thoughts from between the projects — gathered slowly, kept close to the notebook."
       />
 
       {/* ===================== ESSAYS GRID ===================== */}
@@ -102,8 +102,8 @@ export default function BlogPage() {
         <div className="mx-auto max-w-editorial px-5 py-24 sm:px-8 lg:px-12">
           <p className="eyebrow text-paper/50">Our small habit</p>
           <blockquote className="font-display mt-8 max-w-4xl text-[clamp(1.8rem,4.4vw,3.4rem)] font-light leading-[1.12] tracking-tight">
-            “Nothing grand, really — a little warmth, a little order, and the
-            odd good taste. What&apos;s made slowly{" "}
+            “Nothing grand, really — a little order, a little curiosity, and the
+            odd good idea. What&apos;s made slowly{" "}
             <em className="italic">tends to stay with you longer.</em>”
           </blockquote>
           <div className="mt-10 flex items-center gap-4 font-mono text-[0.68rem] uppercase tracking-wide text-paper/60">
@@ -120,8 +120,8 @@ export default function BlogPage() {
             <div className="lg:col-span-4">
               <SectionHeader kicker="In passing" title="Small Notes" />
               <p className="mt-6 max-w-sm text-ink-soft">
-                Shorter notes from between the cooking — the little things that
-                don&apos;t need a whole story to be true.
+                Shorter notes from between the projects — the little things
+                that don&apos;t need a whole story to be true.
               </p>
             </div>
 
